@@ -133,6 +133,14 @@ func getUser(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(user)
 }
 
+// json payloads here
+var adminUser = types.UserDto{
+	Email:       "admin@nuit.com",
+	Name:        "Admin user",
+	Pic:         "https://example.com/admin_pic.png",
+	Permissions: []string{"dashboard.read", "profile.edit", "settings.modify"},
+}
+
 func main() {
 	http.HandleFunc("/nunode/auth/acl/definitions/latest", getLatestAclDefinition)
 	http.HandleFunc("/nunode/auth/acl/definitions", saveAclDefinition)
