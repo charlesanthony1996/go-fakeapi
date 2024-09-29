@@ -119,20 +119,6 @@ func revertAclDefinition(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(aclData)
 }
 
-// user store to handle viewing permissions
-func getUser(w http.ResponseWriter, r *http.Request) {
-	enableCors(&w)
-	user := types.UserDto{
-		Email:       "emberger@nu-it.at",
-		Name:        "Michael Emberger",
-		Pic:         "https://lh3.googleusercontent.com/a/ACg8ocKVc9-IpolPYVPs676OyRHg9f9QC4APpV0bCJKMg_4oKuNnYwA=s96-c",
-		Permissions: []string{"dashboard.write", "profile.edit"},
-	}
-
-	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(user)
-}
-
 // json payloads here
 var adminUser = types.UserDto{
 	Email:       "admin@nu-it.at",
@@ -157,17 +143,40 @@ var guestUser = types.UserDto{
 
 var superAdminUser = types.UserDto{
 	Email:       "superuser@nu-it.at",
-	Name:        "Super User",
+	Name:        "Super Admin",
 	Pic:         "https://example.com/superuser_pic.png",
 	Permissions: []string{"dashboard.read", "profile.view", "profile.edit", "settings.modify", "admin.access"},
 }
 
+var michaelEmbergerUser = types.UserDto{
+	Email:       "emberger@nu-it.at",
+	Name:        "Michael Emberger",
+	Pic:         "https://lh3.googleusercontent.com/a/ACg8ocKVc9-IpolPYVPs676OyRHg9f9QC4APpV0bCJKMg_4oKuNnYwA=s96-c",
+	Permissions: []string{"dashboard.write", "profile.edit"},
+}
+
+// user store to handle viewing permissions
+func getUser(w http.ResponseWriter, r *http.Request) {
+	enableCors(&w)
+	// user := types.UserDto{
+	// 	Email:       "emberger@nu-it.at",
+	// 	Name:        "Michael Emberger",
+	// 	Pic:         "https://lh3.googleusercontent.com/a/ACg8ocKVc9-IpolPYVPs676OyRHg9f9QC4APpV0bCJKMg_4oKuNnYwA=s96-c",
+	// 	Permissions: []string{"dashboard.write", "profile.edit"},
+	// }
+	selectedUser := michaelEmbergerUser
+
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(selectedUser)
+}
+
 func main() {
+	// definitions
 	http.HandleFunc("/nunode/auth/acl/definitions/latest", getLatestAclDefinition)
 	http.HandleFunc("/nunode/auth/acl/definitions", saveAclDefinition)
 	http.HandleFunc("/nunode/auth/acl/definitions/revert", revertAclDefinition)
 
-	// user permission
+	// permissions
 	http.HandleFunc("/user", getUser)
 
 	log.Println("Starting on server :5693...")
