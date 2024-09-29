@@ -135,10 +135,31 @@ func getUser(w http.ResponseWriter, r *http.Request) {
 
 // json payloads here
 var adminUser = types.UserDto{
-	Email:       "admin@nuit.com",
+	Email:       "admin@nu-it.at",
 	Name:        "Admin user",
 	Pic:         "https://example.com/admin_pic.png",
 	Permissions: []string{"dashboard.read", "profile.edit", "settings.modify"},
+}
+
+var dashboardUser = types.UserDto{
+	Email:       "basiuser@nu-it.at",
+	Name:        "Basic user",
+	Pic:         "https://example.com/dashboard_user_pic.png",
+	Permissions: []string{"dashboard.read"},
+}
+
+var guestUser = types.UserDto{
+	Email:       "customuser@nu-it.at",
+	Name:        "Custom User",
+	Pic:         "https://example.com/custom_user_pic.png",
+	Permissions: []string{"settings.modify", "profile.view"},
+}
+
+var superAdminUser = types.UserDto{
+	Email:       "superuser@nu-it.at",
+	Name:        "Super User",
+	Pic:         "https://example.com/superuser_pic.png",
+	Permissions: []string{"dashboard.read", "profile.view", "profile.edit", "settings.modify", "admin.access"},
 }
 
 func main() {
